@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects ZenGamer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --star-color: #ffffff;
+            --main-text-color-dark: #e0e0e0;
+            --secondary-text-color-dark: #a0a0a0;
+            --bg-color-dark: #120d20;
+        }
+
+        .dark-theme {
+            background-color: var(--bg-color-dark);
+            color: var(--main-text-color-dark);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Dark Theme Gradients */
+        .text-gradient-purple {
+            background-image: linear-gradient(to right, #7b1fa2 0%, #d81b60 100%);
+        }
+
+        .text-gradient-pink {
+            background-image: linear-gradient(to right, #ec407a 0%, #f48fb1 100%);
+        }
+
+        .text-gradient-blue {
+            background-image: linear-gradient(to right, #03a9f4 0%, #00bcd4 100%);
+        }
+
+        .nav-link {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            transform: scale(1.1);
+            color: #4a90e2;
+        }
+
+        .dark-theme .nav-link-hover:hover {
+            color: #8a2be2;
+        }
+
+        /* Hoverboard effect for cards */
+        .hover-card {
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Modal for project details */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .project-modal.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #1e1a2b;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .project-modal.is-visible .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 1.5rem;
+            color: #d81b60;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .close-button:hover {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="dark-theme transition-colors duration-500">
+
+    <!-- Top Navigation Menu -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900 bg-opacity-30 backdrop-filter backdrop-blur-lg p-4 transition-colors duration-500">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Left Side - ZG -->
+            <a href="index.html" class="text-3xl font-bold text-gradient text-gradient-purple transform hover:scale-105 transition-transform duration-300">
+                ZG
+            </a>
+            <!-- Right Side - Navigation Links -->
+            <div class="flex space-x-4 sm:space-x-8 text-white">
+                <a href="index.html" class="nav-link nav-link-hover text-lg font-medium">Home</a>
+                <a href="about.html" class="nav-link nav-link-hover text-lg font-medium">About</a>
+                <a href="experience.html" class="nav-link nav-link-hover text-lg font-medium">Experience</a>
+                <a href="projects.html" class="nav-link nav-link-hover text-lg font-medium">Projects</a>
+                <a href="#" class="nav-link nav-link-hover text-lg font-medium">Gallery</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Three.js Canvas for Starry Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Projects Section -->
+    <section id="projects" class="relative z-10 py-16 px-4 md:px-8 lg:px-12 text-center max-w-7xl mx-auto space-y-12 mt-20">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gradient text-gradient-purple">
+            🔬 Projects & Patents
+        </h2>
+
+        <!-- Patents Published -->
+        <h3 class="text-3xl md:text-4xl font-bold text-gradient text-gradient-pink mb-6">
+            🏆 Patents Published
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Patent Card 1 -->
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">1. A Robotic Device for Rescue Operations</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202441092357</p>
+                <img src="N.Gokulnath-patent-1.jpg" alt="Robotic Device" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="1">Details</button>
+            </div>
+            
+            <!-- Patent Card 2 -->
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">2. Smart Secure Mailbox</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541078678</p>
+                <img src="N.Gokulnath-patent-2.jpg" alt="Smart Secure Mailbox" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="2">Details</button>
+            </div>
+
+            <!-- Patent Card 3 -->
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">3. Buoy System for Monitoring Seaweed</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541019392</p>
+                <img src="N.Gokulnath-patent-3.jpg" alt="Buoy System" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="3">Details</button>
+            </div>
+
+            <!-- Patent Card 4 -->
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">4. Integrated Environmental Monitoring System</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541078678</p>
+                <img src="https://placehold.co/150x150/10B981/FFFFFF?text=Home" alt="Home Automation" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="4">Details</button>
+            </div>
+
+            <!-- Patent Card 5 -->
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">5. Swarm-Based AI-Powered Moored Buoy</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541078699</p>
+                <img src="N.Gokulnath-patent-5.png" alt="Swarm-Based Buoy" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="5">Details</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Details Modal -->
+    <div id="projectModal" class="project-modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModal">&times;</span>
+            <div class="text-left space-y-4">
+                <img id="modalImage" src="" alt="Project Image" class="w-24 h-24 rounded-full mx-auto mb-4">
+                <h3 id="modalTitle" class="text-2xl font-bold text-gradient text-gradient-pink"></h3>
+                <p id="modalDescription" class="text-md text-gray-300"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 bg-opacity-50 text-white py-8 mt-auto backdrop-filter backdrop-blur-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gradient text-gradient-purple">
+                Let’s Collaborate or Contact Me
+            </h2>
+            <div class="flex flex-wrap justify-center gap-6 text-2xl">
+                <a href="https://www.linkedin.com/in/n-gokulnath-ba8709277/" target="_blank" class="nav-link hover:text-blue-400" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://wa.me/919952915707" target="_blank" class="nav-link hover:text-green-400" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/_.x.zen.gamer.x._/" target="_blank" class="nav-link hover:text-pink-400" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:gokulnath24nk@gmail.com" class="nav-link hover:text-red-400" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="tel:+919952915707" class="nav-link hover:text-green-500" title="Phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://github.com/zengamer006" target="_blank" class="nav-link hover:text-gray-400" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://medium.com/@gokulh2263" target="_blank" class="nav-link hover:text-white" title="Blogs">
+                    <i class="fab fa-medium"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-sm text-gray-400">© 2024 ZenGamer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Three.js Starry Background Animation ---
+            let scene, camera, renderer, stars;
+
+            function initThreeJs() {
+                const canvas = document.getElementById('bg-canvas');
+                
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                
+                const starGeometry = new THREE.BufferGeometry();
+                const starVertices = [];
+                for (let i = 0; i < 10000; i++) {
+                    const x = THREE.MathUtils.randFloatSpread(2000);
+                    const y = THREE.MathUtils.randFloatSpread(2000);
+                    const z = THREE.MathUtils.randFloatSpread(2000);
+                    starVertices.push(x, y, z);
+                }
+                starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+                const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 2 });
+                stars = new THREE.Points(starGeometry, starMaterial);
+                scene.add(stars);
+
+                camera.position.z = 5;
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                stars.rotation.x += 0.0001;
+                stars.rotation.y += 0.0002;
+                renderer.render(scene, camera);
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            window.addEventListener('resize', onWindowResize);
+            initThreeJs();
+            animate();
+            
+            // --- Modal Logic ---
+            const projectsData = {
+                1: {
+                    title: "A Robotic Device for Rescue Operations",
+                    description: "Designed and developed a self-navigation hexapod robotic system powered by reinforcement learning. It's an autonomous robotics solution for industrial inspection and rescue operations.",
+                    image: "https://placehold.co/150x150/4C51BF/FFFFFF?text=Robot+Details"
+                },
+                2: {
+                    title: "Smart Secure Mailbox",
+                    description: "A smart mailbox integrating IoT tracking, authentication, and an AI-driven package management system. Contributed to research that led to this patent.",
+                    image: "https://placehold.co/150x150/D81B60/FFFFFF?text=Mailbox+Details"
+                },
+                3: {
+                    title: "Buoy System for Monitoring Seaweed and Algae",
+                    description: "A buoy system and method for monitoring and controlling seaweed and algae cultivation, ensuring optimal growth and harvesting conditions in aquatic environments.",
+                    image: "https://placehold.co/150x150/00BCD4/FFFFFF?text=Buoy+Details"
+                },
+                4: {
+                    title: "Integrated Environmental Monitoring and Control System",
+                    description: "A home automation system that secures the home, improves air quality, and establishes smart control. This patent focuses on sustainable and smart tech for indoor environments.",
+                    image: "https://placehold.co/150x150/10B981/FFFFFF?text=Home+Details"
+                },
+                5: {
+                    title: "Swarm-Based AI-Powered Buoy and Glider System",
+                    description: "A novel swarm-based system for real-time aquaculture and ocean monitoring, using AI-powered buoys and gliders to collect and analyze data from the sea.",
+                    image: "https://placehold.co/150x150/FFC107/FFFFFF?text=Swarm+Details"
+                }
+            };
+            
+            const projectModal = document.getElementById('projectModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalImage = document.getElementById('modalImage');
+            const closeModalBtn = document.getElementById('closeModal');
+
+            document.querySelectorAll('.view-details-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const patentId = event.target.getAttribute('data-patent-id');
+                    const patentData = projectsData[patentId];
+                    if (patentData) {
+                        modalTitle.textContent = patentData.title;
+                        modalDescription.textContent = patentData.description;
+                        modalImage.src = patentData.image;
+                        projectModal.classList.add('is-visible');
+                    }
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                projectModal.classList.remove('is-visible');
+            });
+
+            projectModal.addEventListener('click', (event) => {
+                if (event.target === projectModal) {
+                    projectModal.classList.remove('is-visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

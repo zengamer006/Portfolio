@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience ZenGamer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --star-color: #ffffff;
+            --main-text-color-dark: #e0e0e0;
+            --secondary-text-color-dark: #a0a0a0;
+            --bg-color-dark: #120d20;
+        }
+
+        .dark-theme {
+            background-color: var(--bg-color-dark);
+            color: var(--main-text-color-dark);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Dark Theme Gradients */
+        .text-gradient-purple {
+            background-image: linear-gradient(to right, #7b1fa2 0%, #d81b60 100%);
+        }
+
+        .text-gradient-pink {
+            background-image: linear-gradient(to right, #ec407a 0%, #f48fb1 100%);
+        }
+
+        .text-gradient-blue {
+            background-image: linear-gradient(to right, #03a9f4 0%, #00bcd4 100%);
+        }
+
+        .nav-link {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            transform: scale(1.1);
+            color: #4a90e2;
+        }
+
+        .dark-theme .nav-link-hover:hover {
+            color: #8a2be2;
+        }
+
+        /* Card and flip animation */
+        .flip-card {
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .flip-card-front {
+            background: rgba(30, 26, 43, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flip-card-front:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card-back {
+            background: rgba(26, 30, 43, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: rotateY(180deg);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            position: relative;
+            background: transparent;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: #d81b60;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .close-button:hover {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="dark-theme transition-colors duration-500">
+
+    <!-- Top Navigation Menu -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900 bg-opacity-30 backdrop-filter backdrop-blur-lg p-4 transition-colors duration-500">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Left Side - ZG -->
+            <a href="index.html" class="text-3xl font-bold text-gradient text-gradient-purple transform hover:scale-105 transition-transform duration-300">
+                ZG
+            </a>
+            <!-- Right Side - Navigation Links -->
+            <div class="flex space-x-4 sm:space-x-8 text-white">
+                <a href="index.html" class="nav-link nav-link-hover text-lg font-medium">Home</a>
+                <a href="about.html" class="nav-link nav-link-hover text-lg font-medium">About</a>
+                <a href="experience.html" class="nav-link nav-link-hover text-lg font-medium">Experience</a>
+                <a href="projects.html" class="nav-link nav-link-hover text-lg font-medium">Projects</a>
+                <a href="#" class="nav-link nav-link-hover text-lg font-medium">Gallery</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Three.js Canvas for Starry Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Experience Section -->
+    <section id="experience" class="relative z-10 py-16 px-4 md:px-8 lg:px-12 text-center max-w-7xl mx-auto space-y-12 mt-20">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gradient text-gradient-purple">
+            📈 Experience
+        </h2>
+
+        <!-- Work & Research Experience -->
+        <h3 class="text-3xl md:text-4xl font-bold text-gradient text-gradient-pink mb-6">
+            💡 Work & Research Experience
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Experience Cards -->
+            <div id="card-0" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="N. Gokulnath summer research intership.jpeg" alt="VIT Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Summer Research Intern – Center for Smart Grid, VIT Chennai (2024)</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="0">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/1D4ED8/FFFFFF?text=Hexapod" alt="Hexapod" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Hexapod Robot</h4>
+                        <p class="text-sm text-gray-300">Designed and developed self-navigation hexapod robotic systems powered by reinforcement learning algorithms. Enhanced robotic efficiency by achieving 20% faster response times and 45% more accurate pathfinding in real-world simulation models.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="0">Read Less</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="card-1" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/F59E0B/FFFFFF?text=Maven" alt="Maven Silicon Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Embedded Systems Designer – Maven Silicon (2024)</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="1">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/FDBA74/FFFFFF?text=Blind" alt="Visual Impairment" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Systems for Blind People</h4>
+                        <p class="text-sm text-gray-300">Built and tested real-time data processing systems for blind people. Improved convenience by 20% through optimized embedded architecture for monitoring devices.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="1">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-2" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/10B981/FFFFFF?text=CSIR" alt="CSIR Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Intern – CSIR National Chemical Laboratory (Jigyasa Program)</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="2">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/10B981/FFFFFF?text=Climate" alt="Climate Change" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Climate Change Awareness</h4>
+                        <p class="text-sm text-gray-300">Designed and deployed interactive STEM-based web learning platforms for students to create awareness on climate change. Utilized web-based interactivity to increase student engagement in scientific learning modules.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="2">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-3" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/3B82F6/FFFFFF?text=VIT" alt="VIT Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Summer Research Intern – Center for Smart Grid, VIT Chennai (2025)</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="3">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/D81B60/FFFFFF?text=Patent" alt="Smart Mailbox" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Smart Mailbox Patent</h4>
+                        <p class="text-sm text-gray-300">Contributed to research that led to a patent publication on a Smart Secure Mailbox integrating authentication, IoT tracking, and AI-driven package management. Explored integration of sensor fusion, cloud computing, and smart grid interoperability for future-ready solutions.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="3">Read Less</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events & Contributions -->
+        <h3 class="text-3xl md:text-4xl font-bold text-gradient text-gradient-pink mb-6 mt-16">
+            🎤 Events & Contributions
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="card-4" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/EC407A/FFFFFF?text=TechnoVIT" alt="TechnoVIT Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Event Coordinator – TechnoVIT Connectiviteee (2024)</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="4">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/F48FB1/FFFFFF?text=Puzzle" alt="Puzzle Piece" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Illumin8: Solve the Puzzle</h4>
+                        <p class="text-sm text-gray-300">Led and organized Illumin8: Solve the Puzzle, a gamified technical challenge event, engaging over 100+ participants with problem-solving and analytical tasks, promoting critical thinking and innovation.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="4">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-5" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/03A9F4/FFFFFF?text=Vibrance" alt="Vibrance Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Sponsorship Committee – Vibrance (2024)</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="5">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/00BCD4/FFFFFF?text=Partnerships" alt="Partnerships" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Secured Sponsorships</h4>
+                        <p class="text-sm text-gray-300">Secured sponsorships and partnerships for VIT’s premier cultural fest. Built collaborations with Businesses and Stall holders, ensuring brand engagement and support.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="5">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-6" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/4CAF50/FFFFFF?text=Workshop" alt="Workshop Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Speaker – IoT, Embedded Systems & Robotics Workshops</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="6">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/81C784/FFFFFF?text=Speaker" alt="Speaker" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Technical Speaker</h4>
+                        <p class="text-sm text-gray-300">Delivered guest sessions and hands-on workshops for student communities across VIT and external institutes. Focused on real-world applications of IoT sensors, Arduino/ESP32 projects, and robotics programming.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="6">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-7" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/FFC107/FFFFFF?text=Debate" alt="Debate Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Organizer – Future Forge Debate Show</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="7">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/FFD54F/FFFFFF?text=AI" alt="AI Debate" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Global AI Debate</h4>
+                        <p class="text-sm text-gray-300">Hosted a global debate on “Human–AI Collaboration in the Workplace,” attracting participants from 7 countries and 20+ professionals, sparking discussions on AI ethics, workforce integration, and future technology.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="7">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-8" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/9C27B0/FFFFFF?text=Hackathon" alt="Hackathon Logo" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Head Organizer – Empower Tech National Hackathon</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="8">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/CE93D8/FFFFFF?text=Teamwork" alt="Hackathon Team" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">National Hackathon</h4>
+                        <p class="text-sm text-gray-300">Co-organized a national-level hackathon at VIT Chennai in collaboration with IEEE Women Society, ACM Women Society, Atom Robotics, and Enlight Wisdom. The hackathon attracted 750+ participants, solving challenges in real-world scenarios.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="8">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-9" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/795548/FFFFFF?text=Mentor" alt="Mentor Icon" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Mentor – Robotics & IoT Projects</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="9">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/A1887F/FFFFFF?text=Guidance" alt="Guidance" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Project Mentorship</h4>
+                        <p class="text-sm text-gray-300">Guided junior teams in IoT-enabled robotics, covering hardware prototyping, ML integration, and cloud connectivity. Supported successful completion of 5+ student projects with real-world applications.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="9">Read Less</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-10" class="flip-card h-96">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front section-card rounded-lg flex flex-col items-center justify-center p-6">
+                        <img src="https://placehold.co/100x100/607D8B/FFFFFF?text=Speaker" alt="Speaker Icon" class="rounded-full w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Public Speaker – Innovation & Research Awareness</h4>
+                        <button class="details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="10">Details</button>
+                    </div>
+                    <div class="flip-card-back section-card rounded-lg flex flex-col items-center justify-center p-6 text-left">
+                        <img src="https://placehold.co/100x100/B0BEC5/FFFFFF?text=Innovation" alt="Innovation" class="w-24 h-24 mb-4">
+                        <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Innovation & Research</h4>
+                        <p class="text-sm text-gray-300">Conducted motivational sessions on student innovation, patent filing, and project development. Encouraged first- and second-year undergraduates to pursue impactful research beyond academics.</p>
+                        <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="10">Read Less</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 bg-opacity-50 text-white py-8 mt-auto backdrop-filter backdrop-blur-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gradient text-gradient-purple">
+                Let’s Collaborate or Contact Me
+            </h2>
+            <div class="flex flex-wrap justify-center gap-6 text-2xl">
+                <a href="https://www.linkedin.com/in/n-gokulnath-ba8709277/" target="_blank" class="nav-link hover:text-blue-400" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://wa.me/919952915707" target="_blank" class="nav-link hover:text-green-400" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/_.x.zen.gamer.x._/" target="_blank" class="nav-link hover:text-pink-400" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:gokulnath24nk@gmail.com" class="nav-link hover:text-red-400" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="tel:+919952915707" class="nav-link hover:text-green-500" title="Phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://github.com/zengamer006" target="_blank" class="nav-link hover:text-gray-400" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://medium.com/@gokulh2263" target="_blank" class="nav-link hover:text-white" title="Blogs">
+                    <i class="fab fa-medium"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-sm text-gray-400">© 2024 ZenGamer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Three.js Starry Background Animation ---
+            let scene, camera, renderer, stars;
+
+            function initThreeJs() {
+                const canvas = document.getElementById('bg-canvas');
+                
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                
+                const starGeometry = new THREE.BufferGeometry();
+                const starVertices = [];
+                for (let i = 0; i < 10000; i++) {
+                    const x = THREE.MathUtils.randFloatSpread(2000);
+                    const y = THREE.MathUtils.randFloatSpread(2000);
+                    const z = THREE.MathUtils.randFloatSpread(2000);
+                    starVertices.push(x, y, z);
+                }
+                starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+                const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 2 });
+                stars = new THREE.Points(starGeometry, starMaterial);
+                scene.add(stars);
+
+                camera.position.z = 5;
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                stars.rotation.x += 0.0001;
+                stars.rotation.y += 0.0002;
+                
+                renderer.render(scene, camera);
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            window.addEventListener('resize', onWindowResize);
+
+            initThreeJs();
+            animate();
+
+            // --- Card Flip Logic ---
+            document.querySelectorAll('.details-button, .read-less-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const card = event.target.closest('.flip-card');
+                    if (card) {
+                        card.classList.toggle('is-flipped');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

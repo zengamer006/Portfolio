@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About ZenGamer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --star-color: #ffffff;
+            --main-text-color-dark: #e0e0e0;
+            --secondary-text-color-dark: #a0a0a0;
+            --bg-color-dark: #120d20;
+        }
+
+        .dark-theme {
+            background-color: var(--bg-color-dark);
+            color: var(--main-text-color-dark);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Dark Theme Gradients */
+        .text-gradient-purple {
+            background-image: linear-gradient(to right, #7b1fa2 0%, #d81b60 100%);
+        }
+
+        .text-gradient-pink {
+            background-image: linear-gradient(to right, #ec407a 0%, #f48fb1 100%);
+        }
+
+        .text-gradient-blue {
+            background-image: linear-gradient(to right, #03a9f4 0%, #00bcd4 100%);
+        }
+
+        .nav-link {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            transform: scale(1.1);
+            color: #4a90e2;
+        }
+
+        .dark-theme .nav-link-hover:hover {
+            color: #8a2be2;
+        }
+
+        /* Hoverboard effect for cards */
+        .hover-card {
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            transform-style: preserve-3d;
+            background: rgba(30, 26, 43, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hover-card:hover {
+            transform: translateY(-8px) scale(1.03); /* Increased scale for more feature */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal for certificates */
+        .certificate-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .certificate-modal.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #1e1a2b;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.4s ease-out;
+            box-shadow: 0 10px 40px rgba(123, 31, 162, 0.5); /* Glowing shadow */
+        }
+
+        .certificate-modal.is-visible .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 1.5rem;
+            color: #d81b60;
+            cursor: pointer;
+            transition: transform 0.3s;
+            z-index: 60;
+            background: #1e1a2b;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+        }
+        .close-button:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .list-item-icon {
+            color: #ec407a;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="dark-theme transition-colors duration-500">
+
+    <!-- Top Navigation Menu -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900 bg-opacity-30 backdrop-filter backdrop-blur-lg p-4 transition-colors duration-500">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Left Side - ZG -->
+            <a href="index.html" class="text-3xl font-bold text-gradient text-gradient-purple transform hover:scale-105 transition-transform duration-300">
+                ZG
+            </a>
+            <!-- Right Side - Navigation Links -->
+            <div class="flex space-x-4 sm:space-x-8 text-white">
+                <a href="index.html" class="nav-link nav-link-hover text-lg font-medium">Home</a>
+                <a href="about.html" class="nav-link nav-link-hover text-lg font-medium">About</a>
+                <a href="experience.html" class="nav-link nav-link-hover text-lg font-medium">Experience</a>
+                <a href="projects.html" class="nav-link nav-link-hover text-lg font-medium">Projects</a>
+                <a href="#" class="nav-link nav-link-hover text-lg font-medium">Gallery</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Three.js Canvas for Starry Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- About Me Section -->
+    <section id="about-me" class="relative z-10 py-16 px-4 md:px-8 lg:px-12 text-center max-w-7xl mx-auto space-y-12 mt-20">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gradient text-gradient-purple">
+            👨‍💻 About Me
+        </h2>
+        
+        <div class="flex flex-col items-center">
+            <!-- Updated Image Size and Style -->
+            <img src="N_Gokulnath.jpg" alt="N. Gokulnath" class="rounded-full shadow-2xl w-56 h-56 md:w-72 md:h-72 mb-4 transform hover:scale-105 transition-transform duration-300 border-4 border-pink-500 animate-pulse-slow">
+            <h4 class="text-2xl md:text-3xl font-semibold text-white">N. Gokulnath</h4>
+        </div>
+        
+        <div class="space-y-8 text-left">
+            <p class="text-lg md:text-xl leading-relaxed text-gray-300">
+                I’m N. Gokulnath, a final-year B.Tech EEE student at VIT Chennai, passionate about Embedded Systems, IoT (AIoT, IIoT), Robotics, and Automation. My journey has been a blend of research, patents, leadership, and entrepreneurial ventures, all driven by one vision:
+            </p>
+            <p class="text-lg md:text-xl font-bold text-gradient text-gradient-blue">
+                ✨ to engineer sustainable, impactful, and future-ready technological solutions.
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed text-gray-300">
+                With 5 published patents, hands-on internships, and leadership roles across multiple student organizations, I bring a mix of technical expertise, project management, and innovation-driven thinking to every challenge I take on.
+            </p>
+        </div>
+
+        <!-- Life Motto -->
+        <div class="hover-card rounded-lg p-6 md:p-8 shadow-2xl bg-opacity-70">
+            <h3 class="text-xl md:text-2xl font-semibold text-gradient text-gradient-pink mb-2">My Motto</h3>
+            <p class="text-lg md:text-xl italic font-medium leading-relaxed text-gray-200">
+                "Life is short, time is fast - no replay, no rewind. Make every moment successful. Craft your desires, live what you want."
+            </p>
+        </div>
+
+        <!-- Leadership & Volunteering -->
+        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
+            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
+                🎓 Leadership & Volunteering
+            </h3>
+            <ul class="list-none space-y-3 text-lg text-gray-300">
+                <li><i class="fas fa-microchip text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Co-Founder & Director</span> – SGN RoboWorks (Robotics, IoT & Automation Solutions)</li>
+                <!-- Updated Google Student Ambassador with new icon -->
+                <li><i class="fas fa-star text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Google Student Ambassador</span> (2025)</li>
+                <li><i class="fas fa-robot text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Electronics Lead</span> – Atom Robotics, VIT Chennai (2024–25)</li>
+                <li><i class="fas fa-users-cog text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Vice-Chairperson</span> – SSDC, VIT Chennai (2025–26)</li>
+                <li><i class="fas fa-code-branch text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Ex-President</span> – Open Source Programming Club (OSPC), VIT Chennai</li>
+                <li><i class="fas fa-medal text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">President</span> – Uniformed Service, Velammal Vidyalaya (2019–20)</li>
+            </ul>
+        </div>
+
+        <!-- Honors & Awards -->
+        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
+            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
+                🏅 Honor & Awards
+            </h3>
+            <ul class="list-none space-y-2 text-lg text-gray-300">
+                <li><i class="fas fa-award text-yellow-400 mr-2 list-item-icon"></i><span class="font-semibold">Rajyapuraskar Award</span> (09/2019) – Conferred by the Governor of Tamil Nadu for excellence in scouting, leadership, and service.</li>
+            </ul>
+        </div>
+        
+        <!-- Certificates -->
+        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
+            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
+                📜 Certificates
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Certificate 1: Embedded System Developer -->
+                <button
+                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
+                    data-cert-image="N. Gokulnath- Embedded System Design.jpeg">
+                    <span class="text-lg">Embedded System Developer</span>
+                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
+                </button>
+                <!-- Certificate 2: Project Management by Microsoft -->
+                <button
+                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
+                    data-cert-image="N. Gokulnath Project Management by Microsoft on linkedin.jpeg">
+                    <span class="text-lg">Project Management by Microsoft</span>
+                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
+                </button>
+                <!-- Certificate 3: Digital Marketing Specialist -->
+                <button
+                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
+                    data-cert-image="N. Gokulnath- Digital Marketing Specialist.jpeg">
+                    <span class="text-lg">Digital Marketing Specialist</span>
+                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
+                </button>
+                <!-- Certificate 4: Sustainable Tech -->
+                <button
+                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
+                    data-cert-image="N. Gokulnath - Sustainble Tech by Microsoft on Linkedin.jpeg">
+                    <span class="text-lg">Sustainable Tech</span>
+                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
+                </button>
+                <!-- Certificate 5: Computer Networks -->
+                <button
+                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
+                    data-cert-image="N. Gokulnath Computer Networks.jpeg">
+                    <span class="text-lg">Computer Networks</span>
+                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
+                </button>
+                <!-- Certificate 6: Generative AI -->
+                <button
+                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
+                    data-cert-image="N. Gokulnath - Generative AI by Microsoft on Linkedin.jpeg">
+                    <span class="text-lg">Generative AI</span>
+                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
+            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
+                🛠️ Skills
+            </h3>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Core Technical Skills</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-300">
+                        <li>Embedded Systems Design</li>
+                        <li>IoT & IIoT Systems (AIoT)</li>
+                        <li>Robotics Programming & Control</li>
+                        <li>Robotic Operating System (ROS)</li>
+                        <li>Real-Time Operating Systems (RTOS)</li>
+                        <li>Cloud Computing & Edge Computing</li>
+                        <li>Web Development (Frontend & Backend)</li>
+                        <li>Artificial Intelligence & Machine Learning (AI/ML)</li>
+                        <li>System Testing & Debugging</li>
+                        <li>Technical Documentation</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Programming Languages</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-300">
+                        <li>Python</li>
+                        <li>Embedded C</li>
+                        <li>Java</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Languages</h4>
+                    <ul class="flex flex-wrap gap-4 text-gray-300">
+                        <li class="flex items-center space-x-2"><i class="fas fa-comment-dots text-purple-400"></i><span>Tamil</span></li>
+                        <li class="flex items-center space-x-2"><i class="fas fa-comment-dots text-blue-400"></i><span>English</span></li>
+                        <li class="flex items-center space-x-2"><i class="fas fa-comment-dots text-green-400"></i><span>Hindi</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Additional Expertise</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-300">
+                        <li>Agile Project Management</li>
+                        <li>Digital Marketing & SEO</li>
+                        <li>Team Building & Leadership</li>
+                        <li>Public Speaking & Presentations</li>
+                        <li>Technical & Blog Writing</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Domains of Interest</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-300">
+                        <li>Smart Grids ⚡</li>
+                        <li>Renewable Energy 🌱</li>
+                        <li>Automobiles & Mobility 🚘</li>
+                        <li>AI/ML for Automation 🤖</li>
+                        <li>Sustainable & Smart Tech 🌍</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Modal -->
+    <div id="certModal" class="certificate-modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeCertModal">&times;</span>
+            <img id="certImage" src="" alt="Certificate Image" class="w-full h-auto rounded-lg shadow-2xl">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 bg-opacity-50 text-white py-8 mt-auto backdrop-filter backdrop-blur-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gradient text-gradient-purple">
+                Let’s Collaborate or Contact Me
+            </h2>
+            <div class="flex flex-wrap justify-center gap-6 text-2xl">
+                <a href="https://www.linkedin.com/in/n-gokulnath-ba8709277/" target="_blank" class="nav-link hover:text-blue-400" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://wa.me/919952915707" target="_blank" class="nav-link hover:text-green-400" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/_.x.zen.gamer.x._/" target="_blank" class="nav-link hover:text-pink-400" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:gokulnath24nk@gmail.com" class="nav-link hover:text-red-400" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="tel:+919952915707" class="nav-link hover:text-green-500" title="Phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://github.com/zengamer006" target="_blank" class="nav-link hover:text-gray-400" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://medium.com/@gokulh2263" target="_blank" class="nav-link hover:text-white" title="Blogs">
+                    <i class="fab fa-medium"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-sm text-gray-400">© 2024 ZenGamer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Three.js Starry Background Animation ---
+            let scene, camera, renderer, stars;
+
+            function initThreeJs() {
+                const canvas = document.getElementById('bg-canvas');
+                
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                
+                const starGeometry = new THREE.BufferGeometry();
+                const starVertices = [];
+                for (let i = 0; i < 10000; i++) {
+                    const x = THREE.MathUtils.randFloatSpread(2000);
+                    const y = THREE.MathUtils.randFloatSpread(2000);
+                    const z = THREE.MathUtils.randFloatSpread(2000);
+                    starVertices.push(x, y, z);
+                }
+                starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+                const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 2 });
+                stars = new THREE.Points(starGeometry, starMaterial);
+                scene.add(stars);
+
+                camera.position.z = 5;
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                stars.rotation.x += 0.0001;
+                stars.rotation.y += 0.0002;
+                
+                renderer.render(scene, camera);
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            window.addEventListener('resize', onWindowResize);
+
+            initThreeJs();
+            animate();
+
+            // --- Modal Logic for Certificates ---
+            const certModal = document.getElementById('certModal');
+            const certImage = document.getElementById('certImage');
+            const closeButton = document.getElementById('closeCertModal');
+
+            document.querySelectorAll('.view-cert-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    // Check if the click originated directly on the button or its child span
+                    const target = event.target.closest('.view-cert-button');
+                    if (target) {
+                        const imageUrl = target.getAttribute('data-cert-image');
+                        certImage.src = imageUrl;
+                        certModal.classList.add('is-visible');
+                    }
+                });
+            });
+
+            closeButton.addEventListener('click', () => {
+                certModal.classList.remove('is-visible');
+            });
+
+            certModal.addEventListener('click', (event) => {
+                if (event.target === certModal) {
+                    certModal.classList.remove('is-visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

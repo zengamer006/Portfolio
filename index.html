@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenGamer's Universe</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --star-color: #ffffff;
+            --typing-cursor-color: #4a90e2;
+            --main-text-color-dark: #e0e0e0;
+            --secondary-text-color-dark: #a0a0a0;
+            --bg-color-dark: #120d20;
+        }
+
+        .dark-theme {
+            background-color: var(--bg-color-dark);
+            color: var(--main-text-color-dark);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .typing-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        #typing-text::after {
+            content: '|';
+            display: inline;
+            animation: blink 0.8s infinite;
+            color: var(--typing-cursor-color);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+        
+        #bouncing-image {
+            animation: bounce 4s infinite;
+        }
+
+        /* Added for the image border pulse effect from About Page */
+        .animate-pulse-slow {
+            animation: pulse-slow 4s infinite ease-in-out;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { border-color: #d81b60; box-shadow: 0 0 10px rgba(216, 27, 96, 0.5); }
+            50% { border-color: #7b1fa2; box-shadow: 0 0 20px rgba(123, 31, 162, 0.8); }
+        }
+
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Dark Theme Gradients */
+        .text-gradient-purple {
+            background-image: linear-gradient(to right, #7b1fa2 0%, #d81b60 100%);
+        }
+
+        .text-gradient-pink {
+            background-image: linear-gradient(to right, #ec407a 0%, #f48fb1 100%);
+        }
+
+        .text-gradient-blue {
+            background-image: linear-gradient(to right, #03a9f4 0%, #00bcd4 100%);
+        }
+
+        .nav-link {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            transform: scale(1.1);
+            color: #4a90e2;
+        }
+
+        .dark-theme .nav-link-hover:hover {
+            color: #8a2be2;
+        }
+    </style>
+</head>
+<body class="dark-theme transition-colors duration-500">
+
+    <!-- Top Navigation Menu -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900 bg-opacity-30 backdrop-filter backdrop-blur-lg p-4 transition-colors duration-500">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Left Side - ZG -->
+            <a href="index.html" class="text-3xl font-bold text-gradient text-gradient-purple transform hover:scale-105 transition-transform duration-300">
+                ZG
+            </a>
+            <!-- Right Side - Navigation Links -->
+            <div class="flex space-x-4 sm:space-x-8 text-white">
+                <a href="index.html" class="nav-link nav-link-hover text-lg font-medium">Home</a>
+                <a href="about.html" class="nav-link nav-link-hover text-lg font-medium">About</a>
+                <a href="experience.html" class="nav-link nav-link-hover text-lg font-medium">Experience</a>
+                <a href="projects.html" class="nav-link nav-link-hover text-lg font-medium">Projects</a>
+                <a href="#" class="nav-link nav-link-hover text-lg font-medium">Gallery</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Three.js Canvas for Starry Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Main Content: Removed justify-center and set large top padding (pt-28) to position content lower -->
+    <main class="relative z-10 flex flex-col items-center min-h-screen p-4 text-center pt-28">
+
+        <!-- Bouncing Image - Size reduced and animation/style classes maintained -->
+        <img id="bouncing-image" src="Gokulnath.jpg" alt="N. Gokulnath" class="rounded-full shadow-2xl w-32 h-32 md:w-40 md:h-40 mb-4 transform hover:scale-110 transition-transform duration-300 border-4 border-pink-500 animate-pulse-slow">
+        <h4 class="text-2xl md:text-3xl font-semibold text-white mb-8">N. Gokulnath</h4>
+
+        <!-- Title -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gradient text-gradient-purple leading-tight">
+            Welcome to My Universe of Technology
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-lg md:text-xl lg:text-2xl mb-6 text-gradient text-gradient-blue leading-tight">
+            "Where Robotics empowers humanity, IoT simplifies daily life, and Embedded Systems make complexity effortless."
+        </p>
+
+        <!-- Typing Animation Text -->
+        <div class="flex items-center text-2xl md:text-3xl lg:text-4xl font-bold mb-6">
+            <span class="mr-2 text-3xl md:text-4xl lg:text-5xl animate-pulse">👋</span>
+            <span class="typing-container text-gradient text-gradient-pink">
+                Hey there, I'm <span id="typing-text"></span>
+            </span>
+        </div>
+
+        <!-- Roles and Titles -->
+        <div class="flex flex-wrap justify-center items-center gap-4 text-sm md:text-base lg:text-lg mb-8">
+            <span class="rounded-full px-4 py-2 bg-purple-600 bg-opacity-70 text-white shadow-lg transform hover:scale-105 transition-transform duration-300">
+                🚀 Innovator
+            </span>
+            <span class="rounded-full px-4 py-2 bg-indigo-600 bg-opacity-70 text-white shadow-lg transform hover:scale-105 transition-transform duration-300">
+                💻 Embedded Systems & IoT Developer
+            </span>
+            <span class="rounded-full px-4 py-2 bg-blue-600 bg-opacity-70 text-white shadow-lg transform hover:scale-105 transition-transform duration-300">
+                🤖 Robotics & Automation Enthusiast
+            </span>
+            <span class="rounded-full px-4 py-2 bg-pink-600 bg-opacity-70 text-white shadow-lg transform hover:scale-105 transition-transform duration-300">
+                🎖️ 5x Patent Holder
+            </span>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 bg-opacity-50 text-white py-8 mt-auto backdrop-filter backdrop-blur-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gradient text-gradient-purple">
+                Let’s Collaborate or Contact Me
+            </h2>
+            <div class="flex flex-wrap justify-center gap-6 text-2xl">
+                <a href="https://www.linkedin.com/in/n-gokulnath-ba8709277/" target="_blank" class="nav-link hover:text-blue-400" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://wa.me/919952915707" target="_blank" class="nav-link hover:text-green-400" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/_.x.zen.gamer.x._/" target="_blank" class="nav-link hover:text-pink-400" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:gokulnath24nk@gmail.com" class="nav-link hover:text-red-400" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="tel:+919952915707" class="nav-link hover:text-green-500" title="Phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://github.com/zengamer006" target="_blank" class="nav-link hover:text-gray-400" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://medium.com/@gokulh2263" target="_blank" class="nav-link hover:text-white" title="Blogs">
+                    <i class="fab fa-medium"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-sm text-gray-400">© 2024 ZenGamer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Typing Animation Logic ---
+            const textArray = ['ZenGamer', 'N. Gokulnath'];
+            const typingSpeed = 100; // ms per character
+            const erasingSpeed = 50; // ms per character
+            const delayBetweenText = 1500; // ms
+            const typingTextSpan = document.getElementById('typing-text');
+            let arrayIndex = 0;
+            let charIndex = 0;
+            let isTyping = true;
+
+            function type() {
+                const currentText = textArray[arrayIndex];
+                if (charIndex < currentText.length) {
+                    typingTextSpan.textContent += currentText.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typingSpeed);
+                } else {
+                    isTyping = false;
+                    setTimeout(erase, delayBetweenText);
+                }
+            }
+
+            function erase() {
+                const currentText = textArray[arrayIndex];
+                if (charIndex > 0) {
+                    typingTextSpan.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(erase, erasingSpeed);
+                } else {
+                    isTyping = true;
+                    arrayIndex = (arrayIndex + 1) % textArray.length;
+                    setTimeout(type, 500); // Small delay before typing next string
+                }
+            }
+            
+            type(); // Start the typing animation
+
+            // --- Three.js Starry Background Animation ---
+            let scene, camera, renderer, stars;
+
+            function initThreeJs() {
+                const canvas = document.getElementById('bg-canvas');
+                
+                // Scene, Camera, Renderer Setup
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                
+                // Stars
+                const starGeometry = new THREE.BufferGeometry();
+                const starVertices = [];
+                for (let i = 0; i < 10000; i++) {
+                    const x = THREE.MathUtils.randFloatSpread(2000);
+                    const y = THREE.MathUtils.randFloatSpread(2000);
+                    const z = THREE.MathUtils.randFloatSpread(2000);
+                    starVertices.push(x, y, z);
+                }
+                starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+                const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 2 });
+                stars = new THREE.Points(starGeometry, starMaterial);
+                scene.add(stars);
+
+                camera.position.z = 5;
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Animate stars
+                stars.rotation.x += 0.0001;
+                stars.rotation.y += 0.0002;
+                
+                renderer.render(scene, camera);
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            window.addEventListener('resize', onWindowResize);
+
+            initThreeJs();
+            animate();
+        });
+    </script>
+</body>
+</html>
