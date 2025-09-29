@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery ZenGamer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --star-color: #ffffff;
+            --main-text-color-dark: #e0e0e0;
+            --bg-color-dark: #120d20;
+        }
+
+        .dark-theme {
+            background-color: var(--bg-color-dark);
+            color: var(--main-text-color-dark);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-gradient-purple {
+            background-image: linear-gradient(to right, #7b1fa2 0%, #d81b60 100%);
+        }
+
+        .text-gradient-pink {
+            background-image: linear-gradient(to right, #ec407a 0%, #f48fb1 100%);
+        }
+
+        .text-gradient-blue {
+            background-image: linear-gradient(to right, #03a9f4 0%, #00bcd4 100%);
+        }
+
+        /* Nav Link Animation */
+        .nav-link {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .nav-link:hover {
+            transform: scale(1.05);
+            color: #4a90e2;
+        }
+
+        /* New Navbar Style */
+        .new-navbar-bg {
+            background-color: #0d091a; /* Slightly darker than body for contrast */
+            border-bottom: 2px solid #7b1fa2;
+        }
+
+        /* Card Flip Styles */
+        .flip-card {
+            perspective: 1000px;
+            height: 450px; /* Fixed height for consistent grid look */
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border-radius: 1rem;
+        }
+
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            background: rgba(30, 26, 43, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flip-card-front {
+            /* Image display is handled in HTML */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .flip-card-front:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .flip-card-back {
+            background: rgba(26, 30, 43, 0.9);
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="dark-theme transition-colors duration-500">
+
+    <!-- Top Navigation Menu (New Design - Darker, Stronger Border) -->
+    <nav class="fixed top-0 left-0 right-0 z-40 new-navbar-bg bg-opacity-90 backdrop-filter backdrop-blur-lg p-4 transition-colors duration-500">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Left Side - ZG -->
+            <a href="index.html" class="text-3xl font-bold text-gradient text-gradient-purple transform hover:scale-105 transition-transform duration-300">
+                ZG
+            </a>
+            <!-- Right Side - Navigation Links (Responsive Icons) -->
+            <div class="flex space-x-3 sm:space-x-8 text-white text-base">
+                <a href="index.html" class="nav-link flex flex-col items-center sm:flex-row sm:space-x-1 font-medium text-gray-400 hover:text-white">
+                    <i class="fas fa-home sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Home</span>
+                </a>
+                <a href="about.html" class="nav-link flex flex-col items-center sm:flex-row sm:space-x-1 font-medium text-gray-400 hover:text-white">
+                    <i class="fas fa-user-circle sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">About</span>
+                </a>
+                <a href="experience.html" class="nav-link flex flex-col items-center sm:flex-row sm:space-x-1 font-medium text-gray-400 hover:text-white">
+                    <i class="fas fa-chart-line sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Experience</span>
+                </a>
+                <a href="projects.html" class="nav-link flex flex-col items-center sm:flex-row sm:space-x-1 font-medium text-gray-400 hover:text-white">
+                    <i class="fas fa-laptop-code sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Projects</span>
+                </a>
+                <a href="gallery.html" class="nav-link flex flex-col items-center sm:flex-row sm:space-x-1 font-medium text-pink-500 border-b-2 border-pink-500">
+                    <i class="fas fa-images sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Gallery</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Three.js Canvas for Starry Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Main Content -->
+    <main class="relative z-10 p-4 pt-28 max-w-7xl mx-auto min-h-screen">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gradient text-gradient-pink mb-2">
+                📸 Gallery & Moments
+            </h1>
+            <h2 class="text-xl md:text-2xl font-semibold text-gray-300">
+                Showcasing collaborations, achievements, and events.
+            </h2>
+        </header>
+
+        <!-- Gallery Grid (Responsive: 1 col mobile, 3 cols desktop) -->
+        <div id="gallery-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-16">
+            <!-- Cards will be dynamically injected here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 bg-opacity-50 text-white py-8 mt-auto backdrop-filter backdrop-blur-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gradient text-gradient-purple">
+                Let’s Collaborate or Contact Me
+            </h2>
+            <div class="flex flex-wrap justify-center gap-6 text-2xl">
+                <a href="https://www.linkedin.com/in/n-gokulnath-ba8709277/" target="_blank" class="nav-link hover:text-blue-400" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://wa.me/919952915707" target="_blank" class="nav-link hover:text-green-400" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/_.x.zen.gamer.x._/" target="_blank" class="nav-link hover:text-pink-400" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:gokulnath24nk@gmail.com" class="nav-link hover:text-red-400" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="tel:+919952915707" class="nav-link hover:text-green-500" title="Phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://github.com/zengamer006" target="_blank" class="nav-link hover:text-gray-400" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://medium.com/@gokulh2263" target="_blank" class="nav-link hover:text-white" title="Blogs">
+                    <i class="fab fa-medium"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-sm text-gray-400">© 2024 ZenGamer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Gallery Data (Use actual image paths here) ---
+            // Increased to 30 entries (10 rows of 3 on desktop)
+            const galleryData = [];
+            
+            for (let i = 1; i <= 30; i++) {
+                const colors = ['1565C0', '388E3C', 'D81B60', 'FFB300', '00ACC1', '6D4C41', '7B1FA2', '4A148C', '29B6F6', 'AD1457'];
+                const titles = [
+                    "Keynote Speaking at VIT", "Hackathon Organizing Team", "Robotics Project Demo", 
+                    "Patent Publication Celebration", "Embedded Systems Workshop", "Research Poster Presentation",
+                    "Campus Leadership Meeting", "Public Speaking Session", "IoT Device Prototyping", 
+                    "Sponsorship Committee Success"
+                ];
+                const descriptions = [
+                    "Delivering a session on AI in Embedded Systems to the student community.",
+                    "Moment with the organizing committee after a successful national hackathon.",
+                    "Showcasing the Hexapod self-navigation robot prototype.",
+                    "Celebrating the Smart Secure Mailbox patent achievement.",
+                    "Hands-on training session on ESP32 programming and IoT sensor integration.",
+                    "Presenting research on Smart Grid Interoperability.",
+                    "Strategic planning session with fellow student leaders.",
+                    "Delivering a motivational talk on innovation awareness.",
+                    "Working on a complex multi-sensor array for environmental monitoring.",
+                    "Signing off a major partnership deal for the annual cultural fest."
+                ];
+
+                galleryData.push({
+                    id: i,
+                    title: `${titles[(i - 1) % 10]} (Photo ${i})`,
+                    description: `Event Photo ${i}: ${descriptions[(i - 1) % 10]}`,
+                    imageUrl: `https://placehold.co/800x600/${colors[(i - 1) % 10]}/FFFFFF?text=Gallery+Photo+${i}`
+                });
+            }
+
+            const galleryContainer = document.getElementById('gallery-container');
+
+            // --- Render Gallery Cards ---
+            function renderGallery() {
+                galleryContainer.innerHTML = '';
+                galleryData.forEach(item => {
+                    const cardHtml = `
+                        <div id="card-${item.id}" class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front" style="background-image: url('${item.imageUrl}'); background-size: cover; background-position: center;">
+                                    <div class="flex-grow"></div> 
+                                    <div class="w-full bg-gray-900 bg-opacity-80 p-4 rounded-b-lg flex flex-col items-center">
+                                        <h4 class="text-xl font-bold text-gradient text-gradient-pink mb-2">${item.title}</h4>
+                                        <button class="details-button mt-2 px-6 py-2 rounded-full bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="${item.id}" onclick="flipCard(event, 'card-${item.id}')">
+                                            Details <i class="fas fa-arrow-right ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back p-6 flex flex-col justify-between text-left">
+                                    <h4 class="text-2xl font-bold text-gradient text-gradient-blue border-b border-blue-400 pb-2">${item.title}</h4>
+                                    <p class="text-lg text-gray-300 flex-grow mt-4 overflow-y-auto">${item.description}</p>
+                                    <img src="${item.imageUrl}" alt="Full Image" class="w-full h-auto max-h-40 object-cover rounded-lg my-4">
+                                    <button class="read-less-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-id="${item.id}" onclick="flipCard(event, 'card-${item.id}')">
+                                        <i class="fas fa-arrow-left mr-2"></i> Read Less
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    galleryContainer.innerHTML += cardHtml;
+                });
+            }
+
+            // --- Card Flip Logic ---
+            window.flipCard = function(event, cardId) {
+                event.stopPropagation(); 
+                const card = document.getElementById(cardId);
+                if (card) {
+                    card.classList.toggle('is-flipped');
+                }
+            }
+
+            renderGallery();
+
+            // --- Three.js Starry Background Animation ---
+            let scene, camera, renderer, stars;
+
+            function initThreeJs() {
+                const canvas = document.getElementById('bg-canvas');
+                
+                // Scene, Camera, Renderer Setup
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                
+                // Stars
+                const starGeometry = new THREE.BufferGeometry();
+                const starVertices = [];
+                for (let i = 0; i < 10000; i++) {
+                    const x = THREE.MathUtils.randFloatSpread(2000);
+                    const y = THREE.MathUtils.randFloatSpread(2000);
+                    const z = THREE.MathUtils.randFloatSpread(2000);
+                    starVertices.push(x, y, z);
+                }
+                starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+                const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 2 });
+                stars = new THREE.Points(starGeometry, starMaterial);
+                scene.add(stars);
+
+                camera.position.z = 5;
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Animate stars
+                stars.rotation.x += 0.0001;
+                stars.rotation.y += 0.0002;
+                
+                renderer.render(scene, camera);
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            window.addEventListener('resize', onWindowResize);
+
+            if (typeof THREE !== 'undefined') {
+                initThreeJs();
+                animate();
+            }
+
+        });
+    </script>
+</body>
+</html>

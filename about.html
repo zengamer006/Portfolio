@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About ZenGamer</title>
+    <title>About ZenGamer - N. Gokulnath</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
@@ -18,8 +18,8 @@
         :root {
             --star-color: #ffffff;
             --main-text-color-dark: #e0e0e0;
-            --secondary-text-color-dark: #a0a0a0;
             --bg-color-dark: #120d20;
+            --golden-yellow: #FFD700; /* For Leadership Icons */
         }
 
         .dark-theme {
@@ -41,13 +41,13 @@
             z-index: -1;
         }
 
+        /* Gradient Text */
         .text-gradient {
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        /* Dark Theme Gradients */
         .text-gradient-purple {
             background-image: linear-gradient(to right, #7b1fa2 0%, #d81b60 100%);
         }
@@ -60,6 +60,7 @@
             background-image: linear-gradient(to right, #03a9f4 0%, #00bcd4 100%);
         }
 
+        /* Navigation Link Hover Effect */
         .nav-link {
             transition: transform 0.3s ease, color 0.3s ease;
         }
@@ -69,87 +70,102 @@
             color: #4a90e2;
         }
 
-        .dark-theme .nav-link-hover:hover {
-            color: #8a2be2;
+        /* Image Pulse Effect */
+        .animate-pulse-slow {
+            animation: pulse-slow 4s infinite ease-in-out;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { border-color: #d81b60; box-shadow: 0 0 10px rgba(216, 27, 96, 0.5); }
+            50% { border-color: #7b1fa2; box-shadow: 0 0 20px rgba(123, 31, 162, 0.8); }
         }
 
-        /* Hoverboard effect for cards */
+        /* Card Hover (Hoverboard) Effect */
         .hover-card {
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             transform-style: preserve-3d;
-            background: rgba(30, 26, 43, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .hover-card:hover {
-            transform: translateY(-8px) scale(1.03); /* Increased scale for more feature */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Scroll Animation (Fade and Slide Up) */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        /* Modal for certificates */
-        .certificate-modal {
+        .scroll-animate.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
             position: fixed;
-            top: 0;
+            z-index: 100;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9); /* Darker overlay */
-            display: flex;
+            background-color: rgba(0, 0, 0, 0.9);
             justify-content: center;
             align-items: center;
-            z-index: 50;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.3s ease;
         }
 
-        .certificate-modal.is-visible {
+        .modal.show {
+            display: flex;
             opacity: 1;
-            visibility: visible;
         }
 
         .modal-content {
-            background: #1e1a2b;
-            padding: 1.5rem;
-            border-radius: 1rem;
+            position: relative;
+            background-color: #1f2937;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             max-width: 90%;
             max-height: 90%;
-            overflow-y: auto;
-            position: relative;
-            transform: translateY(20px);
-            transition: transform 0.4s ease-out;
-            box-shadow: 0 10px 40px rgba(123, 31, 162, 0.5); /* Glowing shadow */
+            overflow: auto;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
         }
 
-        .certificate-modal.is-visible .modal-content {
+        .modal.show .modal-content {
             transform: translateY(0);
+        }
+
+        .certificate-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
 
         .close-button {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            font-size: 1.5rem;
-            color: #d81b60;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #d1d5db;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #ef4444;
+            text-decoration: none;
             cursor: pointer;
-            transition: transform 0.3s;
-            z-index: 60;
-            background: #1e1a2b;
-            border-radius: 50%;
-            padding: 0.2rem 0.5rem;
-        }
-        .close-button:hover {
-            transform: rotate(90deg) scale(1.1);
         }
 
-        .list-item-icon {
-            color: #ec407a;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        /* Leadership Icon Color */
+        .leadership-icon {
+            color: var(--golden-yellow);
         }
     </style>
 </head>
@@ -162,13 +178,28 @@
             <a href="index.html" class="text-3xl font-bold text-gradient text-gradient-purple transform hover:scale-105 transition-transform duration-300">
                 ZG
             </a>
-            <!-- Right Side - Navigation Links -->
-            <div class="flex space-x-4 sm:space-x-8 text-white">
-                <a href="index.html" class="nav-link nav-link-hover text-lg font-medium">Home</a>
-                <a href="about.html" class="nav-link nav-link-hover text-lg font-medium">About</a>
-                <a href="experience.html" class="nav-link nav-link-hover text-lg font-medium">Experience</a>
-                <a href="projects.html" class="nav-link nav-link-hover text-lg font-medium">Projects</a>
-                <a href="#" class="nav-link nav-link-hover text-lg font-medium">Gallery</a>
+            <!-- Right Side - Navigation Links (Responsive Icons) -->
+            <div class="flex space-x-3 sm:space-x-8 text-white text-base">
+                <a href="index.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
+                    <i class="fas fa-home sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Home</span>
+                </a>
+                <a href="about.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
+                    <i class="fas fa-user-circle sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">About</span>
+                </a>
+                <a href="experience.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
+                    <i class="fas fa-chart-line sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Experience</span>
+                </a>
+                <a href="projects.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
+                    <i class="fas fa-laptop-code sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Projects</span>
+                </a>
+                <a href="Gallery.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
+                    <i class="fas fa-images sm:mr-1 text-xl sm:text-lg"></i>
+                    <span class="hidden sm:inline">Gallery</span>
+                </a>
             </div>
         </div>
     </nav>
@@ -176,181 +207,210 @@
     <!-- Three.js Canvas for Starry Background -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- About Me Section -->
-    <section id="about-me" class="relative z-10 py-16 px-4 md:px-8 lg:px-12 text-center max-w-7xl mx-auto space-y-12 mt-20">
-        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gradient text-gradient-purple">
-            👨‍💻 About Me
-        </h2>
-        
-        <div class="flex flex-col items-center">
-            <!-- Updated Image Size and Style -->
-            <img src="N_Gokulnath.jpg" alt="N. Gokulnath" class="rounded-full shadow-2xl w-56 h-56 md:w-72 md:h-72 mb-4 transform hover:scale-105 transition-transform duration-300 border-4 border-pink-500 animate-pulse-slow">
-            <h4 class="text-2xl md:text-3xl font-semibold text-white">N. Gokulnath</h4>
-        </div>
-        
-        <div class="space-y-8 text-left">
-            <p class="text-lg md:text-xl leading-relaxed text-gray-300">
-                I’m N. Gokulnath, a final-year B.Tech EEE student at VIT Chennai, passionate about Embedded Systems, IoT (AIoT, IIoT), Robotics, and Automation. My journey has been a blend of research, patents, leadership, and entrepreneurial ventures, all driven by one vision:
-            </p>
-            <p class="text-lg md:text-xl font-bold text-gradient text-gradient-blue">
-                ✨ to engineer sustainable, impactful, and future-ready technological solutions.
-            </p>
-            <p class="text-lg md:text-xl leading-relaxed text-gray-300">
-                With 5 published patents, hands-on internships, and leadership roles across multiple student organizations, I bring a mix of technical expertise, project management, and innovation-driven thinking to every challenge I take on.
-            </p>
-        </div>
+    <!-- Main Content -->
+    <main class="relative z-10 p-4 pt-28 max-w-7xl mx-auto min-h-screen">
+        <header class="text-center mb-12 scroll-animate">
+            <!-- Profile Photo -->
+            <img src="N_Gokulnath.jpg" alt="N. Gokulnath Profile" 
+                 class="rounded-full mx-auto shadow-2xl w-40 h-40 md:w-56 md:h-56 mb-4 transform hover:scale-105 transition-transform duration-300 border-4 border-pink-500 animate-pulse-slow">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gradient text-gradient-purple mb-2">
+                👨‍💻 About Me
+            </h1>
+            <h2 class="text-xl md:text-2xl font-semibold text-gray-300">
+                I’m <span class="text-pink-400">N. Gokulnath</span>
+            </h2>
+        </header>
 
-        <!-- Life Motto -->
-        <div class="hover-card rounded-lg p-6 md:p-8 shadow-2xl bg-opacity-70">
-            <h3 class="text-xl md:text-2xl font-semibold text-gradient text-gradient-pink mb-2">My Motto</h3>
-            <p class="text-lg md:text-xl italic font-medium leading-relaxed text-gray-200">
-                "Life is short, time is fast - no replay, no rewind. Make every moment successful. Craft your desires, live what you want."
-            </p>
-        </div>
-
-        <!-- Leadership & Volunteering -->
-        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
-            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
-                🎓 Leadership & Volunteering
-            </h3>
-            <ul class="list-none space-y-3 text-lg text-gray-300">
-                <li><i class="fas fa-microchip text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Co-Founder & Director</span> – SGN RoboWorks (Robotics, IoT & Automation Solutions)</li>
-                <!-- Updated Google Student Ambassador with new icon -->
-                <li><i class="fas fa-star text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Google Student Ambassador</span> (2025)</li>
-                <li><i class="fas fa-robot text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Electronics Lead</span> – Atom Robotics, VIT Chennai (2024–25)</li>
-                <li><i class="fas fa-users-cog text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Vice-Chairperson</span> – SSDC, VIT Chennai (2025–26)</li>
-                <li><i class="fas fa-code-branch text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">Ex-President</span> – Open Source Programming Club (OSPC), VIT Chennai</li>
-                <li><i class="fas fa-medal text-purple-400 mr-2 list-item-icon"></i><span class="font-semibold">President</span> – Uniformed Service, Velammal Vidyalaya (2019–20)</li>
-            </ul>
-        </div>
-
-        <!-- Honors & Awards -->
-        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
-            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
-                🏅 Honor & Awards
-            </h3>
-            <ul class="list-none space-y-2 text-lg text-gray-300">
-                <li><i class="fas fa-award text-yellow-400 mr-2 list-item-icon"></i><span class="font-semibold">Rajyapuraskar Award</span> (09/2019) – Conferred by the Governor of Tamil Nadu for excellence in scouting, leadership, and service.</li>
-            </ul>
-        </div>
-        
-        <!-- Certificates -->
-        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
-            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
-                📜 Certificates
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Certificate 1: Embedded System Developer -->
-                <button
-                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
-                    data-cert-image="N. Gokulnath- Embedded System Design.jpeg">
-                    <span class="text-lg">Embedded System Developer</span>
-                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
-                </button>
-                <!-- Certificate 2: Project Management by Microsoft -->
-                <button
-                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
-                    data-cert-image="N. Gokulnath Project Management by Microsoft on linkedin.jpeg">
-                    <span class="text-lg">Project Management by Microsoft</span>
-                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
-                </button>
-                <!-- Certificate 3: Digital Marketing Specialist -->
-                <button
-                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
-                    data-cert-image="N. Gokulnath- Digital Marketing Specialist.jpeg">
-                    <span class="text-lg">Digital Marketing Specialist</span>
-                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
-                </button>
-                <!-- Certificate 4: Sustainable Tech -->
-                <button
-                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
-                    data-cert-image="N. Gokulnath - Sustainble Tech by Microsoft on Linkedin.jpeg">
-                    <span class="text-lg">Sustainable Tech</span>
-                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
-                </button>
-                <!-- Certificate 5: Computer Networks -->
-                <button
-                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
-                    data-cert-image="N. Gokulnath Computer Networks.jpeg">
-                    <span class="text-lg">Computer Networks</span>
-                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
-                </button>
-                <!-- Certificate 6: Generative AI -->
-                <button
-                    class="view-cert-button bg-gray-700 hover:bg-purple-700 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:scale-105 flex flex-col items-center text-center"
-                    data-cert-image="N. Gokulnath - Generative AI by Microsoft on Linkedin.jpeg">
-                    <span class="text-lg">Generative AI</span>
-                    <span class="mt-2 text-xs font-normal opacity-75 bg-purple-500 px-3 py-1 rounded-full"><i class="fas fa-external-link-alt mr-1"></i> View Certificate</span>
-                </button>
+        <section class="mb-16">
+            <!-- Mission Statement -->
+            <div class="scroll-animate bg-gray-800 rounded-xl p-8 shadow-2xl mb-8 border border-purple-500/50">
+                <p class="text-xl md:text-2xl text-gray-200 leading-relaxed italic mb-4">
+                    I’m a final-year B.Tech EEE student at VIT Chennai, passionate about Embedded Systems, IoT (AIoT, IIoT), Robotics, and Automation.
+                </p>
+                <p class="text-2xl md:text-3xl font-bold text-center text-gradient text-gradient-blue leading-tight">
+                    ✨ to engineer sustainable, impactful, and future-ready technological solutions.
+                </p>
+                <p class="mt-4 text-base md:text-lg text-gray-400">
+                    With **5 published patents**, hands-on internships, and leadership roles across multiple student organizations, I bring a mix of technical expertise, project management, and innovation-driven thinking to every challenge I take on.
+                </p>
             </div>
-        </div>
 
-        <!-- Skills -->
-        <div class="hover-card rounded-lg p-6 shadow-xl space-y-4 text-left bg-opacity-70">
-            <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
-                🛠️ Skills
-            </h3>
-            <div class="space-y-6">
-                <div>
-                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Core Technical Skills</h4>
-                    <ul class="list-disc list-inside space-y-1 text-gray-300">
-                        <li>Embedded Systems Design</li>
-                        <li>IoT & IIoT Systems (AIoT)</li>
-                        <li>Robotics Programming & Control</li>
-                        <li>Robotic Operating System (ROS)</li>
-                        <li>Real-Time Operating Systems (RTOS)</li>
-                        <li>Cloud Computing & Edge Computing</li>
-                        <li>Web Development (Frontend & Backend)</li>
-                        <li>Artificial Intelligence & Machine Learning (AI/ML)</li>
-                        <li>System Testing & Debugging</li>
-                        <li>Technical Documentation</li>
-                    </ul>
+            <!-- Life Motto -->
+            <div class="scroll-animate bg-yellow-900/40 rounded-xl p-6 shadow-2xl mb-12 border-l-4 border-yellow-400 text-center">
+                <p class="text-lg md:text-xl font-medium italic text-yellow-200">
+                    "Life is short, time is fast - no replay, no rewind. Make every moment successful. Craft your desires, live what you want."
+                </p>
+            </div>
+
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Leadership & Volunteering -->
+                <div class="scroll-animate lg:col-span-1">
+                    <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4 text-left border border-indigo-500/50">
+                        <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
+                            🎓 Leadership & Volunteering
+                        </h3>
+                        <ul class="list-none space-y-3 text-lg text-gray-300">
+                            <li class="flex items-start"><i class="fas fa-microchip leadership-icon mt-1 mr-3"></i>Co-Founder & Director – SGN RoboWorks (Robotics, IoT & Automation Solutions)</li>
+                            <li class="flex items-start"><span class="leadership-icon mt-1 mr-3">⭐</span>Google Student Ambassador For Campus (2025)</li>
+                            <li class="flex items-start"><i class="fas fa-robot leadership-icon mt-1 mr-3"></i>Electronics Lead – Atom Robotics, VIT Chennai (2024–25)</li>    
+                            <li class="flex items-start"><i class="fas fa-users-cog leadership-icon mt-1 mr-3"></i>Vice-Chairperson – SSDC, VIT Chennai (2025–26)</li>
+                            <li class="flex items-start"><i class="fas fa-code-branch leadership-icon mt-1 mr-3"></i>Ex-President – Open Source Programming Club (OSPC), VIT Chennai</li>
+                            <li class="flex items-start"><i class="fas fa-medal leadership-icon mt-1 mr-3"></i>President – Uniformed Service, Velammal Vidyalaya (2019–20)</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Programming Languages</h4>
-                    <ul class="list-disc list-inside space-y-1 text-gray-300">
-                        <li>Python</li>
-                        <li>Embedded C</li>
-                        <li>Java</li>
-                    </ul>
+
+                <!-- Honor & Awards -->
+                <div class="scroll-animate lg:col-span-1">
+                    <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4 text-left border border-indigo-500/50">
+                        <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-blue mb-4">
+                            🏅 Honor & Awards
+                        </h3>
+                        <ul class="list-none space-y-3 text-lg text-gray-300">
+                            <li class="flex items-start"><i class="fas fa-award text-yellow-400 mt-1 mr-3"></i><span class="font-semibold text-white">Rajyapuraskar Award (09/2019)</span> – Conferred by the Governor of Tamil Nadu for excellence in scouting, leadership, and service.</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Languages</h4>
-                    <ul class="flex flex-wrap gap-4 text-gray-300">
-                        <li class="flex items-center space-x-2"><i class="fas fa-comment-dots text-purple-400"></i><span>Tamil</span></li>
-                        <li class="flex items-center space-x-2"><i class="fas fa-comment-dots text-blue-400"></i><span>English</span></li>
-                        <li class="flex items-center space-x-2"><i class="fas fa-comment-dots text-green-400"></i><span>Hindi</span></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Additional Expertise</h4>
-                    <ul class="list-disc list-inside space-y-1 text-gray-300">
-                        <li>Agile Project Management</li>
-                        <li>Digital Marketing & SEO</li>
-                        <li>Team Building & Leadership</li>
-                        <li>Public Speaking & Presentations</li>
-                        <li>Technical & Blog Writing</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xl font-semibold text-gray-200 mb-2">Domains of Interest</h4>
-                    <ul class="list-disc list-inside space-y-1 text-gray-300">
-                        <li>Smart Grids ⚡</li>
-                        <li>Renewable Energy 🌱</li>
-                        <li>Automobiles & Mobility 🚘</li>
-                        <li>AI/ML for Automation 🤖</li>
-                        <li>Sustainable & Smart Tech 🌍</li>
-                    </ul>
+
+                <!-- Languages -->
+                <div class="scroll-animate lg:col-span-1">
+                    <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4 text-left border border-indigo-500/50">
+                        <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
+                            🗣️ Languages
+                        </h3>
+                        <ul class="list-none space-y-3 text-lg text-gray-300">
+                            <li class="flex items-start"><i class="fas fa-hand-sparkles text-green-400 mt-1 mr-3"></i><span class="font-semibold text-white">Tamil:</span> Mother Tongue</li>
+                            <li class="flex items-start"><i class="fas fa-globe text-green-400 mt-1 mr-3"></i><span class="font-semibold text-white">English:</span> Professional Working Proficiency</li>
+                            <li class="flex items-start"><i class="fas fa-dharmachakra text-green-400 mt-1 mr-3"></i><span class="font-semibold text-white">Hindi:</span> Conversational Proficiency</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+            
+            <!-- Certificates -->
+            <div class="scroll-animate mt-8">
+                <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4 text-left border border-pink-500/50">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-pink mb-4">
+                        📜 Certificates
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <!-- Certificate Buttons -->
+                        <button
+                            class="view-cert-button flex flex-col items-center justify-center space-y-2 bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:shadow-2xl"
+                            data-cert-image="N. Gokulnath- Embedded System Design.jpeg">
+                            <i class="fas fa-microchip text-blue-400 text-2xl"></i>
+                            <span class="text-sm text-center">Embedded System Developer</span>
+                            <span class="text-xs text-yellow-400">Click to View Certificate</span>
+                        </button>
+                        <button
+                            class="view-cert-button flex flex-col items-center justify-center space-y-2 bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:shadow-2xl"
+                            data-cert-image="N. Gokulnath Project Management by Microsoft on linkedin.jpeg">
+                            <i class="fas fa-tasks text-green-400 text-2xl"></i>
+                            <span class="text-sm text-center">Project Management by Microsoft</span>
+                            <span class="text-xs text-yellow-400">Click to View Certificate</span>
+                        </button>
+                        <button
+                            class="view-cert-button flex flex-col items-center justify-center space-y-2 bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:shadow-2xl"
+                            data-cert-image="N. Gokulnath- Digital Marketing Specialist.jpeg">
+                            <i class="fas fa-bullhorn text-pink-400 text-2xl"></i>
+                            <span class="text-sm text-center">Digital Marketing Specialist</span>
+                            <span class="text-xs text-yellow-400">Click to View Certificate</span>
+                        </button>
+                        <button
+                            class="view-cert-button flex flex-col items-center justify-center space-y-2 bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:shadow-2xl"
+                            data-cert-image="N. Gokulnath - Sustainble Tech by Microsoft on Linkedin.jpeg">
+                            <i class="fas fa-leaf text-teal-400 text-2xl"></i>
+                            <span class="text-sm text-center">Sustainable Tech</span>
+                            <span class="text-xs text-yellow-400">Click to View Certificate</span>
+                        </button>
+                        <button
+                            class="view-cert-button flex flex-col items-center justify-center space-y-2 bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:shadow-2xl"
+                            data-cert-image="N. Gokulnath Computer Networks.jpeg">
+                            <i class="fas fa-network-wired text-red-400 text-2xl"></i>
+                            <span class="text-sm text-center">Computer Networks</span>
+                            <span class="text-xs text-yellow-400">Click to View Certificate</span>
+                        </button>
+                        <button
+                            class="view-cert-button flex flex-col items-center justify-center space-y-2 bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white rounded-lg p-4 font-medium shadow-lg hover:shadow-2xl"
+                            data-cert-image="N. Gokulnath - Generative AI by Microsoft on Linkedin.jpeg">
+                            <i class="fas fa-brain text-purple-400 text-2xl"></i>
+                            <span class="text-sm text-center">Generative AI</span>
+                            <span class="text-xs text-yellow-400">Click to View Certificate</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skills Section -->
+            <div class="scroll-animate mt-8">
+                <div class="bg-gray-800 rounded-xl p-6 shadow-2xl space-y-6 border border-blue-500/50">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gradient text-gradient-blue mb-4">
+                        🛠️ Skills
+                    </h3>
+
+                    <!-- Core Technical Skills -->
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold text-blue-300 flex items-center"><i class="fas fa-cog mr-2"></i> Core Technical Skills</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">Embedded Systems Design</span>
+                            <span class="skill-tag">IoT & IIoT Systems (AIoT)</span>
+                            <span class="skill-tag">Robotics Programming & Control</span>
+                            <span class="skill-tag">Robotic Operating System (ROS)</span>
+                            <span class="skill-tag">Real-Time Operating Systems (RTOS)</span>
+                            <span class="skill-tag">Cloud Computing & Edge Computing</span>
+                            <span class="skill-tag">Web Development (Frontend & Backend)</span>
+                            <span class="skill-tag">Artificial Intelligence & Machine Learning (AI/ML)</span>
+                            <span class="skill-tag">System Testing & Debugging</span>
+                            <span class="skill-tag">Technical Documentation</span>
+                        </div>
+                    </div>
+
+                    <!-- Programming Languages -->
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold text-blue-300 flex items-center"><i class="fas fa-laptop-code mr-2"></i> Programming Languages</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Embedded C</span>
+                            <span class="skill-tag">Java</span>
+                        </div>
+                    </div>
+
+                    <!-- Additional Expertise -->
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold text-blue-300 flex items-center"><i class="fas fa-rocket mr-2"></i> Additional Expertise</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">Agile Project Management</span>
+                            <span class="skill-tag">Digital Marketing & SEO</span>
+                            <span class="skill-tag">Team Building & Leadership</span>
+                            <span class="skill-tag">Public Speaking & Presentations</span>
+                            <span class="skill-tag">Technical & Blog Writing</span>
+                        </div>
+                    </div>
+
+                    <!-- Domains of Interest -->
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold text-blue-300 flex items-center"><i class="fas fa-lightbulb mr-2"></i> Domains of Interest</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-tag">Smart Grids ⚡</span>
+                            <span class="skill-tag">Renewable Energy 🌱</span>
+                            <span class="skill-tag">Automobiles & Mobility 🚘</span>
+                            <span class="skill-tag">AI/ML for Automation 🤖</span>
+                            <span class="skill-tag">Sustainable & Smart Tech 🌍</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
 
     <!-- Certificate Modal -->
-    <div id="certModal" class="certificate-modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeCertModal">&times;</span>
-            <img id="certImage" src="" alt="Certificate Image" class="w-full h-auto rounded-lg shadow-2xl">
+    <div id="certificateModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <img id="modalCertImage" class="certificate-image" alt="Certificate Image">
         </div>
     </div>
 
@@ -390,18 +450,76 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
+            // --- Utility Functions ---
+
+            // Function to check if an element is in the viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.bottom >= 0
+                );
+            }
+
+            // --- Scroll Animation Logic ---
+            const scrollAnimatedElements = document.querySelectorAll('.scroll-animate');
+
+            function checkScrollAnimations() {
+                scrollAnimatedElements.forEach(el => {
+                    if (isInViewport(el)) {
+                        el.classList.add('in-view');
+                    }
+                });
+            }
+
+            // Initial check and event listener setup
+            checkScrollAnimations();
+            window.addEventListener('scroll', checkScrollAnimations);
+            window.addEventListener('resize', checkScrollAnimations);
+
+
+            // --- Certificate Modal Logic ---
+            const modal = document.getElementById('certificateModal');
+            const modalCertImage = document.getElementById('modalCertImage');
+            const certButtons = document.querySelectorAll('.view-cert-button');
+
+            window.openModal = function(imageSrc) {
+                modalCertImage.src = imageSrc;
+                modal.classList.add('show');
+            }
+
+            window.closeModal = function() {
+                modal.classList.remove('show');
+            }
+
+            certButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const imageSrc = button.getAttribute('data-cert-image');
+                    openModal(imageSrc);
+                });
+            });
+
+            // Close modal when pressing ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+
             // --- Three.js Starry Background Animation ---
             let scene, camera, renderer, stars;
 
             function initThreeJs() {
                 const canvas = document.getElementById('bg-canvas');
                 
+                // Scene, Camera, Renderer Setup
                 scene = new THREE.Scene();
                 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
                 renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setPixelRatio(window.devicePixelRatio);
                 
+                // Stars
                 const starGeometry = new THREE.BufferGeometry();
                 const starVertices = [];
                 for (let i = 0; i < 10000; i++) {
@@ -421,6 +539,7 @@
             function animate() {
                 requestAnimationFrame(animate);
 
+                // Animate stars
                 stars.rotation.x += 0.0001;
                 stars.rotation.y += 0.0002;
                 
@@ -435,36 +554,18 @@
 
             window.addEventListener('resize', onWindowResize);
 
-            initThreeJs();
-            animate();
+            if (typeof THREE !== 'undefined') {
+                initThreeJs();
+                animate();
+            }
 
-            // --- Modal Logic for Certificates ---
-            const certModal = document.getElementById('certModal');
-            const certImage = document.getElementById('certImage');
-            const closeButton = document.getElementById('closeCertModal');
-
-            document.querySelectorAll('.view-cert-button').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    // Check if the click originated directly on the button or its child span
-                    const target = event.target.closest('.view-cert-button');
-                    if (target) {
-                        const imageUrl = target.getAttribute('data-cert-image');
-                        certImage.src = imageUrl;
-                        certModal.classList.add('is-visible');
-                    }
-                });
-            });
-
-            closeButton.addEventListener('click', () => {
-                certModal.classList.remove('is-visible');
-            });
-
-            certModal.addEventListener('click', (event) => {
-                if (event.target === certModal) {
-                    certModal.classList.remove('is-visible');
-                }
-            });
         });
     </script>
+    <!-- Tailwind Custom Skill Tag Styles -->
+    <style>
+        .skill-tag {
+            @apply rounded-full px-3 py-1 text-sm font-medium bg-gray-700 text-gray-200 shadow-md transition-transform duration-300 hover:scale-105 hover:bg-purple-600;
+        }
+    </style>
 </body>
 </html>
