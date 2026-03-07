@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects ZenGamer</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Three.js CDN for 3D animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -138,14 +134,11 @@
 </head>
 <body class="dark-theme transition-colors duration-500">
 
-    <!-- Top Navigation Menu -->
     <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900 bg-opacity-30 backdrop-filter backdrop-blur-lg p-4 transition-colors duration-500">
         <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Left Side - ZG -->
             <a href="index.html" class="text-3xl font-bold text-gradient text-gradient-purple transform hover:scale-105 transition-transform duration-300">
                 ZG
             </a>
-            <!-- Right Side - Navigation Links (Responsive Icons) -->
             <div class="flex space-x-3 sm:space-x-8 text-white text-base">
                 <a href="index.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
                     <i class="fas fa-home sm:mr-1 text-xl sm:text-lg"></i>
@@ -163,7 +156,7 @@
                     <i class="fas fa-laptop-code sm:mr-1 text-xl sm:text-lg"></i>
                     <span class="hidden sm:inline">Projects</span>
                 </a>
-                <a href="Gallery.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
+                <a href="about.html" class="nav-link nav-link-hover flex flex-col items-center sm:flex-row sm:space-x-1 font-medium">
                     <i class="fas fa-images sm:mr-1 text-xl sm:text-lg"></i>
                     <span class="hidden sm:inline">Gallery</span>
                 </a>
@@ -171,21 +164,17 @@
         </div>
     </nav>
 
-    <!-- Three.js Canvas for Starry Background -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Projects Section -->
     <section id="projects" class="relative z-10 py-16 px-4 md:px-8 lg:px-12 text-center max-w-7xl mx-auto space-y-12 mt-20">
         <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gradient text-gradient-purple">
             🔬 Projects & Patents
         </h2>
 
-        <!-- Patents Published -->
         <h3 class="text-3xl md:text-4xl font-bold text-gradient text-gradient-pink mb-6">
             🏆 Patents Published
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Patent Card 1 -->
             <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
                 <h4 class="text-xl md:text-2xl font-bold text-white">1. A Robotic Device for Rescue Operations</h4>
                 <p class="text-sm text-gray-400">Patent Application No: 202441092357</p>
@@ -193,7 +182,6 @@
                 <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="1">Details</button>
             </div>
             
-            <!-- Patent Card 2 -->
             <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
                 <h4 class="text-xl md:text-2xl font-bold text-white">2. Smart Secure Mailbox</h4>
                 <p class="text-sm text-gray-400">Patent Application No: 202541078678</p>
@@ -201,7 +189,6 @@
                 <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="2">Details</button>
             </div>
 
-            <!-- Patent Card 3 -->
             <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
                 <h4 class="text-xl md:text-2xl font-bold text-white">3. Buoy System for Monitoring Seaweed</h4>
                 <p class="text-sm text-gray-400">Patent Application No: 202541019392</p>
@@ -209,7 +196,6 @@
                 <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="3">Details</button>
             </div>
 
-            <!-- Patent Card 4 -->
             <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
                 <h4 class="text-xl md:text-2xl font-bold text-white">4. Integrated Environmental Monitoring System</h4>
                 <p class="text-sm text-gray-400">Patent Application No: 202541078678</p>
@@ -217,29 +203,61 @@
                 <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="4">Details</button>
             </div>
 
-            <!-- Patent Card 5 -->
             <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
                 <h4 class="text-xl md:text-2xl font-bold text-white">5. Swarm-Based AI-Powered Moored Buoy</h4>
                 <p class="text-sm text-gray-400">Patent Application No: 202541078699</p>
                 <img src="N.Gokulnath-patent-5.png" alt="Swarm-Based Buoy" class="mx-auto rounded-full w-24 h-24 my-4">
                 <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="5">Details</button>
             </div>
+
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">6. System with Autonomous Agricultural Navigation</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541092483</p>
+                <img src="N.Gokulnath-patent-6.jpeg" onerror="this.src='https://placehold.co/150x150/10B981/FFFFFF?text=Patent+6'" alt="Autonomous Agriculture Robot" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="6">Details</button>
+            </div>
+
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">7. Robotic System for Forest Lifecycle Management</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541103034</p>
+                <img src="N.Gokulnath-patent-7.jpeg" onerror="this.src='https://placehold.co/150x150/22C55E/FFFFFF?text=Patent+7'" alt="Forest Lifecycle Robot" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="7">Details</button>
+            </div>
+
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">8. Autonomous Robot to Navigate Towards a Point of Interest</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541101326</p>
+                <img src="N.Gokulnath-patent-8.jpeg" onerror="this.src='https://placehold.co/150x150/EF4444/FFFFFF?text=Patent+8'" alt="Navigational Robot" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="8">Details</button>
+            </div>
+
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">9. System and Method for Management of Landfills</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541115679</p>
+                <img src="N.Gokulnath-patent-9.png" onerror="this.src='https://placehold.co/150x150/8B5CF6/FFFFFF?text=Patent+9'" alt="Landfill Management" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="9">Details</button>
+            </div>
+
+            <div class="hover-card bg-gray-800 rounded-lg p-6 shadow-xl space-y-4">
+                <h4 class="text-xl md:text-2xl font-bold text-white">10. Fault Detection & Efficiency in Hybrid Renewable Energy</h4>
+                <p class="text-sm text-gray-400">Patent Application No: 202541126414</p>
+                <img src="N.Gokulnath-patent-10.jpeg" onerror="this.src='https://placehold.co/150x150/EAB308/FFFFFF?text=Patent+10'" alt="Renewable Energy Optimization" class="mx-auto rounded-full w-24 h-24 my-4">
+                <button class="view-details-button mt-4 px-6 py-2 rounded-full bg-purple-600 hover:bg-purple-700 transition-colors duration-300 text-white font-medium shadow-lg" data-patent-id="10">Details</button>
+            </div>
         </div>
     </section>
 
-    <!-- Project Details Modal -->
     <div id="projectModal" class="project-modal">
         <div class="modal-content">
             <span class="close-button" id="closeModal">&times;</span>
             <div class="text-left space-y-4">
                 <img id="modalImage" src="" alt="Project Image" class="w-24 h-24 rounded-full mx-auto mb-4">
                 <h3 id="modalTitle" class="text-2xl font-bold text-gradient text-gradient-pink"></h3>
-                <p id="modalDescription" class="text-md text-gray-300"></p>
+                <p id="modalDescription" class="text-md text-gray-300 whitespace-pre-line"></p>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-gray-900 bg-opacity-50 text-white py-8 mt-auto backdrop-filter backdrop-blur-lg">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gradient text-gradient-purple">
@@ -345,6 +363,31 @@
                     title: "Swarm-Based AI-Powered Buoy and Glider System",
                     description: "A novel swarm-based system for real-time aquaculture and ocean monitoring, using AI-powered buoys and gliders to collect and analyze data from the sea.",
                     image: "https://placehold.co/150x150/FFC107/FFFFFF?text=Swarm+Details"
+                },
+                6: {
+                    title: "System with Autonomous Agricultural Navigation for Providing Crop Care",
+                    description: "This system introduces a smart autonomous robot designed to revolutionize modern farming through AI-based crop care & monitoring, autonomous navigation for field operations, IoT-based data collection for soil, humidity & pest detection, and eco-friendly precision farming.",
+                    image: "https://placehold.co/150x150/10B981/FFFFFF?text=Agri+Bot"
+                },
+                7: {
+                    title: "Robotic System and Method for Forest Lifecycle Management",
+                    description: "The system introduces a multi-terrain autonomous quadruped robot equipped with intelligent sensors, AI-driven decision support, and IoT integration to assist in forest health analysis, environmental monitoring, and sustainable resource utilization.",
+                    image: "https://placehold.co/150x150/22C55E/FFFFFF?text=Forest+Bot"
+                },
+                8: {
+                    title: "Autonomous Robot to Navigate Towards a Point of Interest",
+                    description: "This Hexapod system is designed to autonomously navigate and deliver medical essentials such as medicines, samples, or emergency kits to high-risk or inaccessible zones. Ensures faster response, precision navigation, and reliable delivery using AI & Sensor Fusion.",
+                    image: "https://placehold.co/150x150/EF4444/FFFFFF?text=Rescue+Nav"
+                },
+                9: {
+                    title: "A System and Method for Management of Landfills",
+                    description: "Landfills remain one of the most critical yet under-addressed challenges in modern cities. This invention proposes a smart communication-driven system for the efficient monitoring and management of landfills.",
+                    image: "https://placehold.co/150x150/8B5CF6/FFFFFF?text=Landfill+Tech"
+                },
+                10: {
+                    title: "Fault Detection and Efficiency Optimization in Hybrid Renewable Energy Installations",
+                    description: "Hybrid renewable energy systems (solar–wind–storage) are critical to sustainable power generation. This patent introduces a system for fault detection and efficiency optimization to mitigate losses in these complex energy installations.",
+                    image: "https://placehold.co/150x150/EAB308/FFFFFF?text=Renewable+Energy"
                 }
             };
             
